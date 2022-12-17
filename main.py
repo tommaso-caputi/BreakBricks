@@ -1,30 +1,30 @@
 import sys, pygame
 pygame.init()
 
-size = width, height = 320*2, 240*2
+size = width, height = 640, 480
 screen = pygame.display.set_mode(size)
+pygame.display.set_caption('BreakBricks')
 clock = pygame.time.Clock()
-vel = 10
-x = 200
 
 class rect():
     def __init__(self):
-        pass
+        self.y = height-50
+        self.x = width/2
+        self.vel = 10   
+    def keys_handler(self):
+        keys = pygame.key.get_pressed() 
+        if keys[pygame.K_LEFT] and self.x>0:
+            self.x -= self.vel
+        if keys[pygame.K_RIGHT]and self.x<width-20:
+            self.x += self.vel
 
-
-
+player = rect()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
-
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT] and x>0:
-       x-=vel
-    if keys[pygame.K_RIGHT]and x<width-20:
-        x += vel
-    
+    player.keys_handler()
     screen.fill((0,0,0))
-    pygame.draw.rect(screen, (255,255,255), (x,height-50,60,10))
+    pygame.draw.rect(screen, (255,255,255), (player.x, height-50, 60, 10))
     clock.tick(60)
     pygame.display.update()
 
